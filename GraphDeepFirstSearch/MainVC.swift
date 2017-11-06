@@ -23,6 +23,8 @@ class MainVC: UIViewController {
         skView.presentScene(scene)
     }
 
-
+    @IBAction func addBubbleTapped(_ sender: Any) {
+    }
+    
 }
 
