@@ -14,6 +14,8 @@ let darkBlue = UIColor(red: 1.0/255.0, green: 97.0/255.0, blue: 132.0/255.0, alp
 
 class GraphScene: SKScene {
     
+    var graphDelegate: GraphSceneDelegate?
+    
     var bubbleCount = 0
     
     let cameraNode = SKCameraNode()
@@ -21,7 +23,9 @@ class GraphScene: SKScene {
     var selectedNode: SKShapeNode?
     var tapTimer: Timer?
     
-    var isCameraMoving: Bool = false
+    var isMovingNode = false
+    
+    //var isCameraMoving: Bool = false
 
     @objc func handlePinch(recognizer: UIPinchGestureRecognizer) {
         if let camera = camera {
@@ -60,7 +64,8 @@ class GraphScene: SKScene {
         bubble.position = getRandomSpot()
         
         bubble.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        bubble.physicsBody?.isDynamic = false
+        bubble.physicsBody?.isDynamic = true
+        bubble.physicsBody?.affectedByGravity = false
         bubble.physicsBody?.allowsRotation = false
         
         let nameLabel = SKLabelNode(text: bubbleCount.description)
@@ -78,7 +83,7 @@ class GraphScene: SKScene {
     }
     
     func getRandomSpot() -> CGPoint {
-        let spots: [CGFloat] = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+        let spots: [CGFloat] = [0.3,0.4,0.5,0.6,0.7]
         let randWidth = Int(arc4random_uniform(UInt32(spots.count)))
         let randHeight = Int(arc4random_uniform(UInt32(spots.count)))
         let spotWidth = spots[randWidth]
@@ -87,19 +92,32 @@ class GraphScene: SKScene {
         return point
     }
     
-    func handleHoldingTap(timer: Timer) {
+    @objc func handleHoldingTap(timer: Timer) {
         if let selectedNode = timer.userInfo as? SKShapeNode {
+            isMovingNode = true
             self.selectedNode = selectedNode
-            selectedNode.fillColor = UIColor.blue
-            selectedNode.strokeColor = UIColor.blue
+            selectedNode.fillColor = darkBlue
+            selectedNode.strokeColor = darkBlue
         }
     }
     
-    func holdingEnded() {
-        deltaPoint = CGPoint(x: 0, y: 0)
-        selectedNode?.fillColor = blue
-        selectedNode?.strokeColor = blue
+    func cancelSelection() {
         selectedNode = nil
+    }
+    
+    func holdingEnded() {
+        if isMovingNode {
+            isMovingNode = false
+            deltaPoint = CGPoint(x: 0, y: 0)
+            selectedNode?.fillColor = blue
+            selectedNode?.strokeColor = blue
+            selectedNode = nil
+        }
+        
+    }
+    
+    func drawEdge(from node: SKShapeNode, toNode: SKShapeNode) {
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -110,11 +128,13 @@ class GraphScene: SKScene {
         let location = touch.location(in: self)
         let previousLocation = touch.previousLocation(in: self)
         
-        if let _ = selectedNode {
-            deltaPoint = CGPoint(x: location.x - previousLocation.x, y: location.y - previousLocation.y)
+        if isMovingNode {
+            if let _ = selectedNode {
+                deltaPoint = CGPoint(x: location.x - previousLocation.x, y: location.y - previousLocation.y)
+            }
         } else {
             if let camera = camera {
-                isCameraMoving = true
+                //isCameraMoving = true
                 if camera.position.x > 0 && camera.position.x < size.width && camera.position.y > 0 && camera.position.y < size.height {
                     camera.position.x += location.x - previousLocation.x
                     camera.position.y += location.y - previousLocation.y
@@ -136,16 +156,31 @@ class GraphScene: SKScene {
             let location = touch.location(in: self)
             
             if let node = self.atPoint(location) as? SKShapeNode {
-                self.selectedNode = node
-                self.selectedNode?.fillColor = darkBlue
-                self.selectedNode?.strokeColor = darkBlue
+                
+                if let selectedNode = selectedNode {
+                    drawEdge(from: selectedNode, toNode: node)
+                    selectedNode.fillColor = blue
+                    selectedNode.strokeColor = blue
+                    self.selectedNode = nil
+                } else {
+                    self.graphDelegate?.didSelectNode()
+                    self.selectedNode = node
+                    self.selectedNode?.fillColor = darkBlue
+                    self.selectedNode?.strokeColor = darkBlue
+                }
+                
+                
+                tapTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(handleHoldingTap(timer:)), userInfo: node, repeats: false)
+
             }
+            
+            
             
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        isCameraMoving = false
+        //isCameraMoving = false
         tapTimer?.invalidate()
         holdingEnded()
     }
@@ -156,10 +191,12 @@ class GraphScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if let selected = selectedNode {
-            let newPoint = CGPoint(x: selected.position.x + self.deltaPoint.x, y: selected.position.y + self.deltaPoint.y)
-            selected.position = newPoint
-            deltaPoint = CGPoint(x: 0, y: 0)
+        if isMovingNode {
+            if let selected = selectedNode {
+                let newPoint = CGPoint(x: selected.position.x + self.deltaPoint.x, y: selected.position.y + self.deltaPoint.y)
+                selected.position = newPoint
+                deltaPoint = CGPoint(x: 0, y: 0)
+            }
         }
     }
     

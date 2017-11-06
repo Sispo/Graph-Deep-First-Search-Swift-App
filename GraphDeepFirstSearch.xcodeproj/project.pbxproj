@@ -15,6 +15,7 @@
 		3C37B9991FB0E67C00DC6AE7 /* GraphDeepFirstSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9981FB0E67C00DC6AE7 /* GraphDeepFirstSearchTests.swift */; };
 		3C37B9A41FB0E67C00DC6AE7 /* GraphDeepFirstSearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9A31FB0E67C00DC6AE7 /* GraphDeepFirstSearchUITests.swift */; };
 		3C37B9B21FB0E85800DC6AE7 /* GraphScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */; };
+		3C37B9B41FB0F69300DC6AE7 /* GraphSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3C37B9A31FB0E67C00DC6AE7 /* GraphDeepFirstSearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDeepFirstSearchUITests.swift; sourceTree = "<group>"; };
 		3C37B9A51FB0E67C00DC6AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphScene.swift; sourceTree = "<group>"; };
+		3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				3C37B98C1FB0E67C00DC6AE7 /* LaunchScreen.storyboard */,
 				3C37B98F1FB0E67C00DC6AE7 /* Info.plist */,
 				3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */,
+				3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */,
 			);
 			path = GraphDeepFirstSearch;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			files = (
 				3C37B9861FB0E67C00DC6AE7 /* MainVC.swift in Sources */,
 				3C37B9841FB0E67C00DC6AE7 /* AppDelegate.swift in Sources */,
+				3C37B9B41FB0F69300DC6AE7 /* GraphSceneDelegate.swift in Sources */,
 				3C37B9B21FB0E85800DC6AE7 /* GraphScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
