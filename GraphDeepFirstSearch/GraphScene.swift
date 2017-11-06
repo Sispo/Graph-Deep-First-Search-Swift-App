@@ -9,6 +9,9 @@
 import UIKit
 import SpriteKit
 
+let blue = UIColor(red: 47.0/255.0, green: 160.0/255.0, blue: 210.0/255.0, alpha: 1.0)
+let darkBlue = UIColor(red: 1.0/255.0, green: 97.0/255.0, blue: 132.0/255.0, alpha: 1.0)
+
 class GraphScene: SKScene {
     
     var bubbleCount = 0
@@ -50,11 +53,15 @@ class GraphScene: SKScene {
     func addBubble() {
         bubbleCount += 1
         
-        let bubble = SKShapeNode(circleOfRadius: 50)
+        let bubble = SKShapeNode(circleOfRadius: 20)
         bubble.name = bubbleCount.description
-        bubble.fillColor = UIColor.black
-        bubble.strokeColor = UIColor.black
+        bubble.fillColor = blue
+        bubble.strokeColor = blue
         bubble.position = getRandomSpot()
+        
+        bubble.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        bubble.physicsBody?.isDynamic = false
+        bubble.physicsBody?.allowsRotation = false
         
         let nameLabel = SKLabelNode(text: bubbleCount.description)
         
@@ -90,8 +97,8 @@ class GraphScene: SKScene {
     
     func holdingEnded() {
         deltaPoint = CGPoint(x: 0, y: 0)
-        selectedNode?.fillColor = UIColor.black
-        selectedNode?.strokeColor = UIColor.black
+        selectedNode?.fillColor = blue
+        selectedNode?.strokeColor = blue
         selectedNode = nil
     }
     
@@ -104,7 +111,7 @@ class GraphScene: SKScene {
         let previousLocation = touch.previousLocation(in: self)
         
         if let _ = selectedNode {
-            deltaPoint = CGPoint(x: 2.0*(location.x - previousLocation.x), y: 2.0*(location.y - previousLocation.y))
+            deltaPoint = CGPoint(x: location.x - previousLocation.x, y: location.y - previousLocation.y)
         } else {
             if let camera = camera {
                 isCameraMoving = true
@@ -124,33 +131,15 @@ class GraphScene: SKScene {
         
         for touch: AnyObject in touches {
             
+            
             // detect touch in the scene
             let location = touch.location(in: self)
             
-//            for category in bubbleData {
-//                if let node = self.childNode(withName: category.name) as? SKShapeNode {
-//                    if node.contains(location) {
-//                        if touch.tapCount == 2 {
-//                            
-//                            if node.fillColor.isEqual(UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)) {
-//                                // SHOW ALLERT
-//                            } else {
-//                                NotificationCenter.default.post(name: bubblePressed, object: nil, userInfo: ["category":category.name])
-//                            }
-//                        } else {
-//                            if !isCameraMoving {
-//                                tapTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(handleHoldingTap(timer:)), userInfo: node, repeats: false)
-//                            }
-//                            //                            self.selectedNode = node
-//                            //                            self.selectedColor = node.fillColor
-//                            //                            node.fillColor = cyan
-//                            //                            node.strokeColor = cyan
-//                            //                            node.physicsBody?.affectedByGravity = false
-//                        }
-//                    }
-//                }
-//            }
-            
+            if let node = self.atPoint(location) as? SKShapeNode {
+                self.selectedNode = node
+                self.selectedNode?.fillColor = darkBlue
+                self.selectedNode?.strokeColor = darkBlue
+            }
             
         }
     }

@@ -24,6 +24,7 @@ class MainVC: UIViewController {
     }
 
     @IBAction func addBubbleTapped(_ sender: Any) {
+        scene.addBubble()
     }
     
 }
