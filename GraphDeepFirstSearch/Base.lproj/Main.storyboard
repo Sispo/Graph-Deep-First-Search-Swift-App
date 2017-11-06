@@ -47,6 +47,9 @@
                                     <constraint firstAttribute="height" constant="44" id="ZdK-hK-U4Q"/>
                                 </constraints>
                                 <state key="normal" image="exit"/>
+                                <connections>
+                                    <action selector="clearSceneTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TmD-N0-lhh"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFA-oi-dcx">
                                 <rect key="frame" x="44" y="165" width="44" height="44"/>

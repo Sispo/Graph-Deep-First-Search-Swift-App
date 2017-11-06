@@ -16,6 +16,12 @@
 		3C37B9A41FB0E67C00DC6AE7 /* GraphDeepFirstSearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9A31FB0E67C00DC6AE7 /* GraphDeepFirstSearchUITests.swift */; };
 		3C37B9B21FB0E85800DC6AE7 /* GraphScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */; };
 		3C37B9B41FB0F69300DC6AE7 /* GraphSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */; };
+		3C37B9B61FB108E100DC6AE7 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B51FB108E100DC6AE7 /* Graph.swift */; };
+		3C37B9B81FB10EC000DC6AE7 /* SKGraphVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B71FB10EC000DC6AE7 /* SKGraphVertex.swift */; };
+		3C37B9BA1FB10F3400DC6AE7 /* SKGraphEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9B91FB10F3400DC6AE7 /* SKGraphEdge.swift */; };
+		3C37B9BC1FB10F7B00DC6AE7 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */; };
+		3C37B9BE1FB10F8300DC6AE7 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */; };
+		3C37B9C01FB1138200DC6AE7 /* EdgeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +57,12 @@
 		3C37B9A51FB0E67C00DC6AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphScene.swift; sourceTree = "<group>"; };
 		3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSceneDelegate.swift; sourceTree = "<group>"; };
+		3C37B9B51FB108E100DC6AE7 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		3C37B9B71FB10EC000DC6AE7 /* SKGraphVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraphVertex.swift; sourceTree = "<group>"; };
+		3C37B9B91FB10F3400DC6AE7 /* SKGraphEdge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraphEdge.swift; sourceTree = "<group>"; };
+		3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
+		3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +121,12 @@
 				3C37B98F1FB0E67C00DC6AE7 /* Info.plist */,
 				3C37B9B11FB0E85800DC6AE7 /* GraphScene.swift */,
 				3C37B9B31FB0F69300DC6AE7 /* GraphSceneDelegate.swift */,
+				3C37B9B51FB108E100DC6AE7 /* Graph.swift */,
+				3C37B9B71FB10EC000DC6AE7 /* SKGraphVertex.swift */,
+				3C37B9B91FB10F3400DC6AE7 /* SKGraphEdge.swift */,
+				3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */,
+				3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */,
+				3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */,
 			);
 			path = GraphDeepFirstSearch;
 			sourceTree = "<group>";
@@ -265,10 +283,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C37B9C01FB1138200DC6AE7 /* EdgeList.swift in Sources */,
+				3C37B9B81FB10EC000DC6AE7 /* SKGraphVertex.swift in Sources */,
 				3C37B9861FB0E67C00DC6AE7 /* MainVC.swift in Sources */,
 				3C37B9841FB0E67C00DC6AE7 /* AppDelegate.swift in Sources */,
 				3C37B9B41FB0F69300DC6AE7 /* GraphSceneDelegate.swift in Sources */,
 				3C37B9B21FB0E85800DC6AE7 /* GraphScene.swift in Sources */,
+				3C37B9BC1FB10F7B00DC6AE7 /* Vertex.swift in Sources */,
+				3C37B9B61FB108E100DC6AE7 /* Graph.swift in Sources */,
+				3C37B9BA1FB10F3400DC6AE7 /* SKGraphEdge.swift in Sources */,
+				3C37B9BE1FB10F8300DC6AE7 /* Edge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

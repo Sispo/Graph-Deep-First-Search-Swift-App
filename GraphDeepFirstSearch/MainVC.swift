@@ -20,6 +20,7 @@ class MainVC: UIViewController {
         super.viewDidLoad()
         scene = GraphScene(size: self.view.bounds.size)
         scene.scaleMode = .resizeFill
+        scene.graphDelegate = self
         skView.ignoresSiblingOrder = true
         skView.presentScene(scene)
     }
@@ -29,6 +30,9 @@ class MainVC: UIViewController {
     }
     @IBAction func cancelSelectionBtnTapped(_ sender: Any) {
         scene.cancelSelection()
+    }
+    @IBAction func clearSceneTapped(_ sender: Any) {
+        scene.cleanUpScene()
     }
     
 }

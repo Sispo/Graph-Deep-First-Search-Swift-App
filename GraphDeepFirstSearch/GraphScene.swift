@@ -11,8 +11,12 @@ import SpriteKit
 
 let blue = UIColor(red: 47.0/255.0, green: 160.0/255.0, blue: 210.0/255.0, alpha: 1.0)
 let darkBlue = UIColor(red: 1.0/255.0, green: 97.0/255.0, blue: 132.0/255.0, alpha: 1.0)
+let cyan = UIColor(red: 9.0/255.0, green: 135.0/255.0, blue: 151.0/255.0, alpha: 1.0)
+
 
 class GraphScene: SKScene {
+    
+    var graph = Graph()
     
     var graphDelegate: GraphSceneDelegate?
     
@@ -24,6 +28,7 @@ class GraphScene: SKScene {
     var tapTimer: Timer?
     
     var isMovingNode = false
+    var hasBeganConnectingNodes = false
     
     //var isCameraMoving: Bool = false
 
@@ -50,6 +55,10 @@ class GraphScene: SKScene {
     }
     
     func cleanUpScene() {
+        graph = Graph()
+        isMovingNode = false
+        hasBeganConnectingNodes = false
+        bubbleCount = 0
         self.removeAllChildren()
         addChild(cameraNode)
     }
@@ -57,7 +66,7 @@ class GraphScene: SKScene {
     func addBubble() {
         bubbleCount += 1
         
-        let bubble = SKShapeNode(circleOfRadius: 20)
+        let bubble = SKShapeNode(circleOfRadius: 25)
         bubble.name = bubbleCount.description
         bubble.fillColor = blue
         bubble.strokeColor = blue
@@ -95,6 +104,7 @@ class GraphScene: SKScene {
     @objc func handleHoldingTap(timer: Timer) {
         if let selectedNode = timer.userInfo as? SKShapeNode {
             isMovingNode = true
+            graphDelegate?.didFinishSelection()
             self.selectedNode = selectedNode
             selectedNode.fillColor = darkBlue
             selectedNode.strokeColor = darkBlue
@@ -102,7 +112,10 @@ class GraphScene: SKScene {
     }
     
     func cancelSelection() {
+        selectedNode?.fillColor = blue
+        selectedNode?.strokeColor = blue
         selectedNode = nil
+        graphDelegate?.didFinishSelection()
     }
     
     func holdingEnded() {
@@ -117,7 +130,24 @@ class GraphScene: SKScene {
     }
     
     func drawEdge(from node: SKShapeNode, toNode: SKShapeNode) {
+        //hasBeganConnectingNodes = true
         
+        let path:CGMutablePath = CGMutablePath()
+        path.move(to: node.position)
+        path.addLine(to: toNode.position)
+        
+        let edge = SKShapeNode(path: path)
+
+        edge.lineWidth = 2.0
+        edge.name = node.description + toNode.description
+        edge.strokeColor = blue
+        edge.fillColor = blue
+        node.removeFromParent()
+        toNode.removeFromParent()
+        edge.addChild(node)
+        edge.addChild(toNode)
+        
+        insertChild(edge, at: 0)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -136,8 +166,8 @@ class GraphScene: SKScene {
             if let camera = camera {
                 //isCameraMoving = true
                 if camera.position.x > 0 && camera.position.x < size.width && camera.position.y > 0 && camera.position.y < size.height {
-                    camera.position.x += location.x - previousLocation.x
-                    camera.position.y += location.y - previousLocation.y
+                    camera.position.x -= location.x - previousLocation.x
+                    camera.position.y -= location.y - previousLocation.y
                     
                 } else {
                     let center = CGPoint(x: size.width / 2, y: size.height / 2)
@@ -158,7 +188,10 @@ class GraphScene: SKScene {
             if let node = self.atPoint(location) as? SKShapeNode {
                 
                 if let selectedNode = selectedNode {
+                    self.graphDelegate?.didFinishSelection()
+                    
                     drawEdge(from: selectedNode, toNode: node)
+                    
                     selectedNode.fillColor = blue
                     selectedNode.strokeColor = blue
                     self.selectedNode = nil
@@ -169,8 +202,9 @@ class GraphScene: SKScene {
                     self.selectedNode?.strokeColor = darkBlue
                 }
                 
-                
-                tapTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(handleHoldingTap(timer:)), userInfo: node, repeats: false)
+                if !hasBeganConnectingNodes {
+                    tapTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(handleHoldingTap(timer:)), userInfo: node, repeats: false)
+                }
 
             }
             
