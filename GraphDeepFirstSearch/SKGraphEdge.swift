@@ -11,6 +11,6 @@ import SpriteKit
 
 class SKGraphEdge: SKShapeNode {
     
-    var edge: Edge?
+    var edge: Edge!
     
 }

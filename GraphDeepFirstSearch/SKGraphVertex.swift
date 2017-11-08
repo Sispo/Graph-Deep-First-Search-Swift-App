@@ -11,6 +11,6 @@ import SpriteKit
 
 class SKGraphVertex: SKShapeNode {
     
-    var vertex: Vertex?
+    var vertex: Vertex!
     
 }

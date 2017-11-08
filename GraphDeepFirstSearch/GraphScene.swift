@@ -66,8 +66,9 @@ class GraphScene: SKScene {
     func addBubble() {
         bubbleCount += 1
         
-        let bubble = SKShapeNode(circleOfRadius: 25)
-        bubble.name = bubbleCount.description
+        let bubble = SKGraphVertex(circleOfRadius: 25)
+        bubble.vertex = Vertex(index: bubbleCount)
+
         bubble.fillColor = blue
         bubble.strokeColor = blue
         bubble.position = getRandomSpot()
@@ -102,13 +103,34 @@ class GraphScene: SKScene {
     }
     
     @objc func handleHoldingTap(timer: Timer) {
-        if let selectedNode = timer.userInfo as? SKShapeNode {
+        if var selectedNode = timer.userInfo as? SKShapeNode {
             isMovingNode = true
             graphDelegate?.didFinishSelection()
+            
+            selectedNode = getDeepestParent(node: selectedNode)
             self.selectedNode = selectedNode
-            selectedNode.fillColor = darkBlue
-            selectedNode.strokeColor = darkBlue
         }
+    }
+    
+    func getDeepestParent(node: SKShapeNode) -> SKShapeNode {
+        var deepestNode: SKShapeNode = node
+        while (deepestNode.parent != nil) {
+            
+            if let parent = deepestNode.parent {
+                if parent != self {
+                    if let parent = parent as? SKShapeNode {
+                        deepestNode = parent
+                    } else {
+                        break
+                    }
+                } else {
+                    break
+                }
+            } else {
+                break
+            }
+        }
+        return deepestNode
     }
     
     func cancelSelection() {
@@ -129,25 +151,79 @@ class GraphScene: SKScene {
         
     }
     
-    func drawEdge(from node: SKShapeNode, toNode: SKShapeNode) {
-        //hasBeganConnectingNodes = true
+    func drawEdge(from node: SKGraphVertex, toNode: SKGraphVertex) {
         
-        let path:CGMutablePath = CGMutablePath()
-        path.move(to: node.position)
-        path.addLine(to: toNode.position)
+        hasBeganConnectingNodes = true
         
-        let edge = SKShapeNode(path: path)
-
-        edge.lineWidth = 2.0
-        edge.name = node.description + toNode.description
-        edge.strokeColor = blue
-        edge.fillColor = blue
-        node.removeFromParent()
-        toNode.removeFromParent()
-        edge.addChild(node)
-        edge.addChild(toNode)
-        
-        insertChild(edge, at: 0)
+        if node != toNode {
+            let arrow = SKShapeNode(circleOfRadius: 10)
+            arrow.fillColor = blue
+            arrow.strokeColor = blue
+            
+            let path:CGMutablePath = CGMutablePath()
+            path.move(to: node.position)
+            path.addLine(to: toNode.position)
+            
+            let edge = SKGraphEdge(path: path)
+            
+            edge.edge = Edge(from: node.vertex, to: toNode.vertex, weight: nil)
+            
+            edge.lineWidth = 2.0
+            edge.name = node.description + toNode.description
+            edge.strokeColor = blue
+            edge.fillColor = blue
+            
+            
+            edge.addChild(arrow)
+            
+            if node.parent == self {
+                node.removeFromParent()
+                edge.addChild(node)
+            } else {
+                let deepestParent = getDeepestParent(node: node)
+                if deepestParent != edge {
+                    deepestParent.removeFromParent()
+                    edge.addChild(deepestParent)
+                }
+                
+            }
+            
+            if toNode.parent == self {
+                toNode.removeFromParent()
+                edge.addChild(toNode)
+            } else {
+                let deepestParent = getDeepestParent(node: toNode)
+                if deepestParent != edge {
+                    deepestParent.removeFromParent()
+                    edge.addChild(deepestParent)
+                }
+                
+            }
+            
+            arrow.position = toNode.position.applying(CGAffineTransform(translationX: (toNode.position.x - node.position.x) / -4.5, y: (toNode.position.y - node.position.y) / -4.5))
+            
+            insertChild(edge, at: 0)
+        } else {
+            let arrow = SKShapeNode(circleOfRadius: 10)
+            arrow.fillColor = blue
+            arrow.strokeColor = blue
+            
+            let edge = SKGraphEdge(circleOfRadius: 20)
+            
+            edge.edge = Edge(from: node.vertex, to: toNode.vertex, weight: nil)
+            
+            edge.lineWidth = 2.0
+            edge.name = node.description + toNode.description
+            edge.strokeColor = blue
+            edge.fillColor = blue
+            edge.position = node.position.applying(CGAffineTransform(translationX: -20, y: 0))
+            
+            edge.addChild(arrow)
+            
+            arrow.position = edge.position.applying(CGAffineTransform(translationX: -20, y: 0))
+            
+            node.insertChild(edge, at: 0)
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -187,20 +263,23 @@ class GraphScene: SKScene {
             
             if let node = self.atPoint(location) as? SKShapeNode {
                 
-                if let selectedNode = selectedNode {
-                    self.graphDelegate?.didFinishSelection()
-                    
-                    drawEdge(from: selectedNode, toNode: node)
-                    
-                    selectedNode.fillColor = blue
-                    selectedNode.strokeColor = blue
-                    self.selectedNode = nil
-                } else {
-                    self.graphDelegate?.didSelectNode()
-                    self.selectedNode = node
-                    self.selectedNode?.fillColor = darkBlue
-                    self.selectedNode?.strokeColor = darkBlue
+                if let vertexNode = node as? SKGraphVertex {
+                    if let selectedNode = selectedNode as? SKGraphVertex {
+                        self.graphDelegate?.didFinishSelection()
+                        
+                        drawEdge(from: selectedNode, toNode: vertexNode)
+                        
+                        selectedNode.fillColor = blue
+                        selectedNode.strokeColor = blue
+                        self.selectedNode = nil
+                    } else {
+                        self.graphDelegate?.didSelectNode()
+                        self.selectedNode = node
+                        self.selectedNode?.fillColor = darkBlue
+                        self.selectedNode?.strokeColor = darkBlue
+                    }
                 }
+                
                 
                 if !hasBeganConnectingNodes {
                     tapTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(handleHoldingTap(timer:)), userInfo: node, repeats: false)
