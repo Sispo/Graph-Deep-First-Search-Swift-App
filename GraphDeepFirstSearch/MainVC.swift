@@ -35,6 +35,30 @@ class MainVC: UIViewController {
         scene.cleanUpScene()
     }
     
+    @IBAction func proceedTapped(_ sender: Any) {
+        let pickerView = CustomPickerDialog.init()
+        var dataSource: [String] = []
+        for vertex in scene.graph.verticles {
+            dataSource.append("\(vertex.index)")
+        }
+        
+        pickerView.setDataSource(dataSource)
+        pickerView.showDialog("Select the starting vertex", doneButtonTitle: "Done", cancelButtonTitle: "Cancel") { (result) -> Void in
+            
+            if let vertexIndex = Int(result) {
+                self.scene.deepFirstSearch(u: self.scene.graph.verticles[vertexIndex])
+            }
+        }
+    }
+    
+    @IBAction func showAdjListTapped(_ sender: Any) {
+        let adjListVC = self.storyboard?.instantiateViewController(withIdentifier: "AdjListVC") as! AdjListVC
+        self.present(adjListVC, animated: false, completion: {
+            adjListVC.adjList = self.scene.graph.adjacencyList
+            adjListVC.tableView.reloadData()
+        })
+    }
+    
 }
 
 extension MainVC: GraphSceneDelegate {

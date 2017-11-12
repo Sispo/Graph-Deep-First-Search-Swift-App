@@ -22,6 +22,8 @@
 		3C37B9BC1FB10F7B00DC6AE7 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */; };
 		3C37B9BE1FB10F8300DC6AE7 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */; };
 		3C37B9C01FB1138200DC6AE7 /* EdgeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */; };
+		3CAF67601FB8B05C007A0D09 /* CustomPickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF675F1FB8B05C007A0D09 /* CustomPickerDialog.swift */; };
+		3CAF67621FB8B841007A0D09 /* AdjListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF67611FB8B841007A0D09 /* AdjListVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeList.swift; sourceTree = "<group>"; };
+		3CAF675F1FB8B05C007A0D09 /* CustomPickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerDialog.swift; sourceTree = "<group>"; };
+		3CAF67611FB8B841007A0D09 /* AdjListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjListVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,8 @@
 				3C37B9BB1FB10F7B00DC6AE7 /* Vertex.swift */,
 				3C37B9BD1FB10F8300DC6AE7 /* Edge.swift */,
 				3C37B9BF1FB1138200DC6AE7 /* EdgeList.swift */,
+				3CAF675F1FB8B05C007A0D09 /* CustomPickerDialog.swift */,
+				3CAF67611FB8B841007A0D09 /* AdjListVC.swift */,
 			);
 			path = GraphDeepFirstSearch;
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 			files = (
 				3C37B9C01FB1138200DC6AE7 /* EdgeList.swift in Sources */,
 				3C37B9B81FB10EC000DC6AE7 /* SKGraphVertex.swift in Sources */,
+				3CAF67621FB8B841007A0D09 /* AdjListVC.swift in Sources */,
 				3C37B9861FB0E67C00DC6AE7 /* MainVC.swift in Sources */,
 				3C37B9841FB0E67C00DC6AE7 /* AppDelegate.swift in Sources */,
 				3C37B9B41FB0F69300DC6AE7 /* GraphSceneDelegate.swift in Sources */,
@@ -293,6 +300,7 @@
 				3C37B9B61FB108E100DC6AE7 /* Graph.swift in Sources */,
 				3C37B9BA1FB10F3400DC6AE7 /* SKGraphEdge.swift in Sources */,
 				3C37B9BE1FB10F8300DC6AE7 /* Edge.swift in Sources */,
+				3CAF67601FB8B05C007A0D09 /* CustomPickerDialog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

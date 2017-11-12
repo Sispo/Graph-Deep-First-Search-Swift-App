@@ -11,18 +11,14 @@ import Foundation
 class EdgeList {
     
     let vertex: Vertex
-    var edges: [Edge]?
+    var edges: [Edge] = []
     
     init(vertex: Vertex) {
         self.vertex = vertex
     }
     
     func add(edge: Edge) {
-        if edges == nil {
-            edges = [edge]
-        } else {
-            edges?.append(edge)
-        }
+        edges.append(edge)
     }
     
 }

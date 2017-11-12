@@ -20,8 +20,6 @@ class GraphScene: SKScene {
     
     var graphDelegate: GraphSceneDelegate?
     
-    var bubbleCount = 0
-    
     let cameraNode = SKCameraNode()
     var deltaPoint = CGPoint(x: 0, y: 0)
     var selectedNode: SKShapeNode?
@@ -54,20 +52,71 @@ class GraphScene: SKScene {
         
     }
     
+    var visited: [Vertex] = []
+    
+    func deepFirstSearch(u: Vertex) {
+        print("Checking \(u.index)")
+        self.dye(vertex: u)
+        self.visited.append(u)
+        for neighbor in graph.adjacencyList[u.index].edges {
+            let v = neighbor.to
+            if (!self.visited.contains(v)) {
+                print("Checking \(neighbor.from)-\(neighbor.to)")
+                self.dye(edge: neighbor, isGray: false)
+                self.deepFirstSearch(u: v)
+            } else {
+                print("Checking \(neighbor.from)-\(neighbor.to) GRAY")
+                self.dye(edge: neighbor, isGray: true)
+            }
+        }
+        
+    }
+    
+    func dye(edge: Edge, isGray: Bool) {
+        for child in children {
+            if let edgeNode = child as? SKGraphEdge {
+                if edgeNode.edge == edge {
+                    for arr in edgeNode.children {
+                        if let arr = arr as? SKShapeNode {
+                            arr.fillColor = isGray ? .darkGray : .magenta
+                            arr.strokeColor = isGray ? .darkGray : .magenta
+                        }
+                    }
+                    edgeNode.fillColor = isGray ? .darkGray : .magenta
+                    edgeNode.strokeColor = isGray ? .darkGray : .magenta
+                    return
+                }
+            }
+        }
+        
+    }
+    
+    func dye(vertex: Vertex) {
+        for child in children {
+            if let vertexNode = child as? SKGraphVertex {
+                if vertexNode.vertex == vertex {
+                    vertexNode.fillColor = .purple
+                    vertexNode.strokeColor = .purple
+                    return
+                }
+            }
+        }
+    }
+    
     func cleanUpScene() {
+        visited.removeAll()
         graph = Graph()
         isMovingNode = false
         hasBeganConnectingNodes = false
-        bubbleCount = 0
         self.removeAllChildren()
         addChild(cameraNode)
     }
     
     func addBubble() {
-        bubbleCount += 1
         
         let bubble = SKGraphVertex(circleOfRadius: 25)
-        bubble.vertex = Vertex(index: bubbleCount)
+        bubble.vertex = graph.addVertex()
+        bubble.name = "vertex-\(bubble.vertex.index)"
 
         bubble.fillColor = blue
         bubble.strokeColor = blue
@@ -78,7 +127,7 @@ class GraphScene: SKScene {
         bubble.physicsBody?.affectedByGravity = false
         bubble.physicsBody?.allowsRotation = false
         
-        let nameLabel = SKLabelNode(text: bubbleCount.description)
+        let nameLabel = SKLabelNode(text: bubble.vertex.index.description)
         
         nameLabel.fontName = "AvenirNext-Regular"
         nameLabel.fontSize = 17
@@ -165,8 +214,9 @@ class GraphScene: SKScene {
             path.addLine(to: toNode.position)
             
             let edge = SKGraphEdge(path: path)
-            
-            edge.edge = Edge(from: node.vertex, to: toNode.vertex, weight: nil)
+
+            edge.edge = graph.addEdge(from: node.vertex, to: toNode.vertex, weight: nil)
+            edge.name = "edge-\(edge.edge.from.index)-\(edge.edge.to.index)"
             
             edge.lineWidth = 2.0
             edge.name = node.description + toNode.description
@@ -175,54 +225,11 @@ class GraphScene: SKScene {
             
             
             edge.addChild(arrow)
-            
-            if node.parent == self {
-                node.removeFromParent()
-                edge.addChild(node)
-            } else {
-                let deepestParent = getDeepestParent(node: node)
-                if deepestParent != edge {
-                    deepestParent.removeFromParent()
-                    edge.addChild(deepestParent)
-                }
-                
-            }
-            
-            if toNode.parent == self {
-                toNode.removeFromParent()
-                edge.addChild(toNode)
-            } else {
-                let deepestParent = getDeepestParent(node: toNode)
-                if deepestParent != edge {
-                    deepestParent.removeFromParent()
-                    edge.addChild(deepestParent)
-                }
-                
-            }
             
             arrow.position = toNode.position.applying(CGAffineTransform(translationX: (toNode.position.x - node.position.x) / -4.5, y: (toNode.position.y - node.position.y) / -4.5))
             
             insertChild(edge, at: 0)
-        } else {
-            let arrow = SKShapeNode(circleOfRadius: 10)
-            arrow.fillColor = blue
-            arrow.strokeColor = blue
             
-            let edge = SKGraphEdge(circleOfRadius: 20)
-            
-            edge.edge = Edge(from: node.vertex, to: toNode.vertex, weight: nil)
-            
-            edge.lineWidth = 2.0
-            edge.name = node.description + toNode.description
-            edge.strokeColor = blue
-            edge.fillColor = blue
-            edge.position = node.position.applying(CGAffineTransform(translationX: -20, y: 0))
-            
-            edge.addChild(arrow)
-            
-            arrow.position = edge.position.applying(CGAffineTransform(translationX: -20, y: 0))
-            
-            node.insertChild(edge, at: 0)
         }
     }
     

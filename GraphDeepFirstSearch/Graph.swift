@@ -23,11 +23,8 @@ class Graph {
     var edges: [Edge] {
         var allEdges = [Edge]()
         for edgeList in adjacencyList {
-            guard let edges = edgeList.edges else {
-                continue
-            }
             
-            for edge in edges {
+            for edge in edgeList.edges {
                 if !allEdges.contains(edge) {
                     allEdges.append(edge)
                 }
@@ -36,11 +33,20 @@ class Graph {
         return allEdges
     }
     
-    func addEdge(from: Vertex, to: Vertex, weight: Double?) {
+    func addEdge(from: Vertex, to: Vertex, weight: Double?) -> Edge {
         
         let edge = Edge(from: from, to: to, weight: weight)
         let edgeList = adjacencyList[from.index]
         edgeList.add(edge: edge)
+        return edge
+    }
+    
+    func addVertex() -> Vertex {
+        
+        let vertex = Vertex(index: adjacencyList.count)
+        adjacencyList.append(EdgeList(vertex: vertex))
+        return vertex
+        
     }
     
 }

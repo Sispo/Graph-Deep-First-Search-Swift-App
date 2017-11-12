@@ -15,10 +15,16 @@ struct Edge {
     
     public let weight: Double?
     
+    public var desc: String {
+        get {
+            return "(\(from.index),\(to.index))"
+        }
+    }
+    
 }
 
 extension Edge: Equatable {
     public static func == (lhs: Edge, rhs: Edge) -> Bool {
-        return lhs.from == rhs.from && lhs.to == rhs.from && lhs.weight == rhs.weight
+        return lhs.from == rhs.from && lhs.to == rhs.to && lhs.weight == rhs.weight
     }
 }

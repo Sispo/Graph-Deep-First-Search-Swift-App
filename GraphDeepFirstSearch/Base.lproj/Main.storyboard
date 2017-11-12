@@ -9,6 +9,60 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Adj ListVC-->
+        <scene sceneID="imG-43-8Or">
+            <objects>
+                <viewController storyboardIdentifier="AdjListVC" id="IaJ-LI-c0B" customClass="AdjListVC" customModule="GraphDeepFirstSearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qSi-PE-vNm">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QEt-rB-OU1">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="eZ9-GD-Oq3">
+                                        <rect key="frame" x="0.0" y="28" width="667" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eZ9-GD-Oq3" id="jEN-KY-MdQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="667" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FKL-9B-YxG">
+                                <rect key="frame" x="579" y="20" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="9la-Ba-F8n"/>
+                                    <constraint firstAttribute="height" constant="44" id="XBk-VT-91k"/>
+                                </constraints>
+                                <state key="normal" image="exit"/>
+                                <connections>
+                                    <action selector="clearSceneTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zzc-Nt-88s"/>
+                                    <action selector="dismissTapped:" destination="IaJ-LI-c0B" eventType="touchUpInside" id="2zw-Yu-Dhx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QEt-rB-OU1" firstAttribute="top" secondItem="5SL-bA-ned" secondAttribute="top" id="BVf-UG-yG1"/>
+                            <constraint firstItem="FKL-9B-YxG" firstAttribute="top" secondItem="5SL-bA-ned" secondAttribute="top" constant="20" id="Phj-XV-6gE"/>
+                            <constraint firstItem="QEt-rB-OU1" firstAttribute="bottom" secondItem="5SL-bA-ned" secondAttribute="bottom" id="XzY-By-Pov"/>
+                            <constraint firstItem="QEt-rB-OU1" firstAttribute="trailing" secondItem="5SL-bA-ned" secondAttribute="trailing" id="Zxe-Qc-CmS"/>
+                            <constraint firstItem="5SL-bA-ned" firstAttribute="trailing" secondItem="FKL-9B-YxG" secondAttribute="trailing" constant="44" id="fEs-xK-5xn"/>
+                            <constraint firstItem="QEt-rB-OU1" firstAttribute="leading" secondItem="5SL-bA-ned" secondAttribute="leading" id="lru-6X-Fhd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="5SL-bA-ned"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="QEt-rB-OU1" id="Z9P-g6-0hV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N16-du-D1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="33.733133433283363" y="-775.20000000000005"/>
+        </scene>
         <!--MainVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -39,6 +93,9 @@
                                     <constraint firstAttribute="height" constant="44" id="nt6-T9-TqK"/>
                                 </constraints>
                                 <state key="normal" image="next"/>
+                                <connections>
+                                    <action selector="proceedTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U3X-lr-bJf"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hp5-s6-6Ld">
                                 <rect key="frame" x="44" y="20" width="44" height="44"/>
@@ -62,6 +119,17 @@
                                     <action selector="cancelSelectionBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gih-hD-cZb"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqO-DW-jIA">
+                                <rect key="frame" x="579" y="20" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="94H-Vo-Smd"/>
+                                    <constraint firstAttribute="height" constant="44" id="y8X-kE-hXe"/>
+                                </constraints>
+                                <state key="normal" image="gravity"/>
+                                <connections>
+                                    <action selector="showAdjListTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WA-6R-e2k"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -70,6 +138,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7D9-KH-dSI" secondAttribute="bottom" constant="20" id="7Hs-OT-GEZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cOI-v0-OyE" secondAttribute="bottom" constant="20" id="Ag0-NR-8ml"/>
                             <constraint firstItem="TFA-oi-dcx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="44" id="B4e-wa-P6C"/>
+                            <constraint firstItem="lqO-DW-jIA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="ESY-Tv-9dh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lqO-DW-jIA" secondAttribute="trailing" constant="44" id="HWB-6B-LRh"/>
                             <constraint firstItem="hp5-s6-6Ld" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="HaO-pr-vvA"/>
                             <constraint firstItem="5ci-yb-S9e" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WMK-bI-V1J"/>
                             <constraint firstItem="7D9-KH-dSI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="44" id="bBv-qV-DBY"/>
@@ -92,6 +162,7 @@
     <resources>
         <image name="exit" width="87" height="87"/>
         <image name="exit_white" width="44" height="44"/>
+        <image name="gravity" width="66" height="66"/>
         <image name="next" width="87" height="87"/>
         <image name="plus" width="87" height="87"/>
     </resources>
