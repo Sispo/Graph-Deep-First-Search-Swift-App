@@ -46,6 +46,7 @@ class MainVC: UIViewController {
         pickerView.showDialog("Select the starting vertex", doneButtonTitle: "Done", cancelButtonTitle: "Cancel") { (result) -> Void in
             
             if let vertexIndex = Int(result) {
+                self.scene.cleanResults()
                 self.scene.deepFirstSearch(u: self.scene.graph.verticles[vertexIndex])
             }
         }

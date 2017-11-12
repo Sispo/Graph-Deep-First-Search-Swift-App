@@ -72,6 +72,25 @@ class GraphScene: SKScene {
         
     }
     
+    func cleanResults() {
+        visited.removeAll()
+        for child in children {
+            if let edgeNode = child as? SKGraphEdge {
+                for arr in edgeNode.children {
+                    if let arr = arr as? SKShapeNode {
+                        arr.fillColor = blue
+                        arr.strokeColor = blue
+                    }
+                }
+                edgeNode.fillColor = blue
+                edgeNode.strokeColor = blue
+            } else if let vertexNode = child as? SKGraphVertex {
+                vertexNode.fillColor = blue
+                vertexNode.strokeColor = blue
+            }
+        }
+    }
+    
     func dye(edge: Edge, isGray: Bool) {
         for child in children {
             if let edgeNode = child as? SKGraphEdge {
